@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turan Masters — Университетская лига</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;1,700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #050507;
+  --dark: #0d0d12;
+  --panel: #12121a;
+  --card: #1a1a26;
+  --border: rgba(255,255,255,0.06);
+  --yellow: #f5c400;
+  --orange: #ff7a00;
+  --gradient: linear-gradient(135deg, #f5c400, #ff7a00);
+  --glow-y: rgba(245,196,0,0.4);
+  --glow-o: rgba(255,122,0,0.3);
+  --white: #ffffff;
+  --muted: rgba(255,255,255,0.45);
+  --font-head: 'Barlow Condensed', sans-serif;
+  --font-body: 'Barlow', sans-serif;
+  --font-ui: 'Rajdhani', sans-serif;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ─── UTILITY ──────────────────────────────── */
+.container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+.accent { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.tag {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  border: 1px solid rgba(245,196,0,0.3);
+  padding: 4px 12px;
+  border-radius: 2px;
+  background: rgba(245,196,0,0.06);
+}
+.section-title {
+  font-family: var(--font-head);
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.divider-line {
+  width: 48px; height: 3px;
+  background: var(--gradient);
+  border-radius: 2px;
+  margin: 20px 0 32px;
+}
+
+/* ─── NAV ──────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(5,5,7,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.nav-logo {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+}
+.nav-logo span { color: var(--yellow); }
+.nav-links {
+  display: flex; gap: 32px; list-style: none;
+}
+.nav-links a {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--yellow); }
+.nav-cta {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--gradient);
+  border: none;
+  padding: 10px 22px;
+  cursor: pointer;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 0 20px var(--glow-y);
+}
+.nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: 0.3s; }
+
+/* ─── HERO ─────────────────────────────────── */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex; align-items: center;
+  overflow: hidden;
+  padding-top: 64px;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 50%, rgba(245,196,0,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 30% 80%, rgba(255,122,0,0.06) 0%, transparent 60%),
+    linear-gradient(180deg, #050507 0%, #0a0a0f 100%);
+}
+.hero-grid-lines {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(245,196,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,196,0,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.5) 70%, transparent 100%);
+}
+.hero-content {
+  position: relative; z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  padding: 80px 0;
+}
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 20px;
+}
+.hero-eyebrow::after {
+  content: '';
+  flex: 1; max-width: 60px; height: 1px;
+  background: rgba(245,196,0,0.4);
+}
+.hero-title {
+  font-family: var(--font-head);
+  font-size: clamp(52px, 8vw, 100px);
+  font-weight: 800;
+  line-height: 0.92;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+.hero-subtitle {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 420px;
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+.hero-date-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--panel);
+  border: 1px solid rgba(245,196,0,0.2);
+  border-radius: 4px;
+  padding: 10px 18px;
+  margin-bottom: 36px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+.hero-date-badge .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--yellow);
+  box-shadow: 0 0 8px var(--glow-y);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(0.85)} }
+
+.hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-primary {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--gradient);
+  border: none;
+  padding: 16px 36px;
+  cursor: pointer;
+  border-radius: 3px;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px;
+  box-shadow: 0 0 30px var(--glow-y), 0 4px 20px rgba(0,0,0,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px var(--glow-y), 0 8px 30px rgba(0,0,0,0.5); }
+.btn-primary svg { width: 16px; height: 16px; }
+.btn-secondary {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 16px 32px;
+  cursor: pointer;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.btn-secondary:hover { border-color: var(--yellow); background: rgba(245,196,0,0.05); }
+
+.hero-visual {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-circle-outer {
+  position: relative;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  border: 1px solid rgba(245,196,0,0.15);
+  display: flex; align-items: center; justify-content: center;
+  animation: rotate-slow 20s linear infinite;
+}
+.hero-circle-inner {
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  border: 1px solid rgba(245,196,0,0.25);
+  background: radial-gradient(circle, rgba(245,196,0,0.06), rgba(255,122,0,0.04), transparent 70%);
+  display: flex; align-items: center; justify-content: center;
+  animation: rotate-slow 20s linear infinite reverse;
+}
+.hero-emblem {
+  width: 160px; height: 160px;
+  animation: rotate-slow 20s linear infinite;
+}
+@keyframes rotate-slow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+.orbit-dot {
+  position: absolute;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--gradient);
+  box-shadow: 0 0 12px var(--glow-y);
+}
+.orbit-dot:nth-child(1) { top: -5px; left: 50%; transform: translateX(-50%); }
+.orbit-dot:nth-child(2) { bottom: -5px; left: 50%; transform: translateX(-50%); }
+.orbit-dot:nth-child(3) { left: -5px; top: 50%; transform: translateY(-50%); }
+.orbit-dot:nth-child(4) { right: -5px; top: 50%; transform: translateY(-50%); }
+.hero-stats {
+  position: absolute;
+  display: flex; flex-direction: column; gap: 12px;
+  right: -20px; top: 50%; transform: translateY(-50%);
+}
+.hero-stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--yellow);
+  padding: 12px 16px;
+  border-radius: 4px;
+  min-width: 130px;
+}
+.hero-stat-num {
+  font-family: var(--font-head);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-stat-label {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ─── ABOUT ────────────────────────────────── */
+#about {
+  padding: 100px 0;
+  background: var(--dark);
+  position: relative;
+  overflow: hidden;
+}
+#about::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--yellow), transparent);
+  opacity: 0.3;
+}
+.about-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.about-body { font-size: 16px; color: rgba(255,255,255,0.65); line-height: 1.8; margin-bottom: 32px; }
+.about-cards { display: flex; flex-direction: column; gap: 16px; }
+.info-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 24px;
+  display: flex; gap: 18px; align-items: flex-start;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.info-card:hover { border-color: rgba(245,196,0,0.25); transform: translateX(4px); }
+.info-icon {
+  width: 44px; height: 44px;
+  border-radius: 6px;
+  background: rgba(245,196,0,0.1);
+  border: 1px solid rgba(245,196,0,0.2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 20px;
+}
+.info-card-title {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.info-card-desc { font-size: 14px; color: var(--muted); }
+
+/* ─── FORMAT ───────────────────────────────── */
+#format {
+  padding: 100px 0;
+  position: relative;
+}
+.format-steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+  margin-top: 60px;
+  position: relative;
+}
+.format-steps::before {
+  content: '';
+  position: absolute;
+  top: 52px; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--yellow) 30%, var(--orange) 70%, transparent 100%);
+  opacity: 0.25;
+  z-index: 0;
+}
+.step-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 40px 32px;
+  position: relative;
+  z-index: 1;
+  transition: border-color 0.3s, background 0.3s;
+}
+.step-card:first-child { border-radius: 6px 0 0 6px; }
+.step-card:last-child { border-radius: 0 6px 6px 0; }
+.step-card:hover {
+  background: var(--card);
+  border-color: rgba(245,196,0,0.3);
+}
+.step-num {
+  font-family: var(--font-head);
+  font-size: 72px;
+  font-weight: 800;
+  line-height: 1;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.3;
+  margin-bottom: 16px;
+}
+.step-title {
+  font-family: var(--font-head);
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 12px;
+}
+.step-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.step-badge {
+  display: inline-block;
+  margin-top: 16px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 2px;
+}
+.badge-online { background: rgba(0,200,150,0.1); color: #00c896; border: 1px solid rgba(0,200,150,0.2); }
+.badge-offline { background: rgba(245,196,0,0.1); color: var(--yellow); border: 1px solid rgba(245,196,0,0.2); }
+
+/* ─── PRIZES ───────────────────────────────── */
+#prizes {
+  padding: 100px 0;
+  background: var(--dark);
+  text-align: center;
+}
+.prizes-grid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 24px;
+  margin-top: 60px;
+}
+.prize-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 40px 32px 36px;
+  flex: 1; max-width: 300px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+.prize-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.prize-card.place-2::before { background: rgba(180,180,200,0.5); }
+.prize-card.place-1::before { background: var(--gradient); box-shadow: 0 0 20px var(--glow-y); }
+.prize-card.place-3::before { background: rgba(180,120,50,0.6); }
+.prize-card.place-1 {
+  border-color: rgba(245,196,0,0.25);
+  background: linear-gradient(160deg, #1e1d10 0%, #1a1a26 100%);
+  transform: translateY(-16px);
+  box-shadow: 0 0 60px rgba(245,196,0,0.08);
+}
+.prize-card:hover { transform: translateY(-20px); }
+.prize-card.place-2:hover, .prize-card.place-3:hover { transform: translateY(-6px); }
+.prize-medal {
+  font-size: 48px;
+  margin-bottom: 12px;
+  display: block;
+}
+.prize-place {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.prize-amount {
+  font-family: var(--font-head);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.prize-amount.gold { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.prize-amount.silver { color: #c8c8d8; }
+.prize-amount.bronze { color: #c87832; }
+.prize-currency { font-size: 14px; color: var(--muted); }
+.prize-tag { margin-top: 16px; }
+
+/* ─── UNIVERSITIES ─────────────────────────── */
+#universities {
+  padding: 100px 0;
+}
+.unis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 48px;
+}
+.uni-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 16px;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: border-color 0.2s, color 0.2s;
+  cursor: default;
+}
+.uni-card:hover { border-color: rgba(245,196,0,0.3); color: var(--white); }
+.uni-abbr {
+  font-family: var(--font-head);
+  font-size: 28px;
+  font-weight: 800;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* ─── SCHEDULE ─────────────────────────────── */
+#schedule {
+  padding: 100px 0;
+  background: var(--dark);
+}
+.timeline {
+  position: relative;
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 28px; top: 0; bottom: 0; width: 2px;
+  background: linear-gradient(180deg, var(--yellow), var(--orange), rgba(255,122,0,0.1));
+  border-radius: 2px;
+}
+.timeline-item {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 0 0 40px 70px;
+  position: relative;
+}
+.timeline-node {
+  position: absolute;
+  left: 18px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--gradient);
+  border: 3px solid var(--dark);
+  box-shadow: 0 0 14px var(--glow-y);
+  flex-shrink: 0;
+  top: 4px;
+}
+.timeline-content {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  flex: 1;
+  transition: border-color 0.2s;
+}
+.timeline-content:hover { border-color: rgba(245,196,0,0.2); }
+.timeline-date {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 6px;
+}
+.timeline-title {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.timeline-desc { font-size: 14px; color: var(--muted); }
+
+/* ─── PARTNERS ─────────────────────────────── */
+#partners {
+  padding: 100px 0;
+}
+.partners-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 48px;
+}
+.partner-box {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 24px 36px;
+  display: flex; align-items: center; justify-content: center;
+  min-width: 160px; flex: 1; max-width: 220px;
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.2s, border-color 0.2s;
+}
+.partner-box:hover { color: var(--white); border-color: rgba(255,255,255,0.15); }
+.partner-box.organizer { border-color: rgba(245,196,0,0.2); color: var(--yellow); }
+
+/* ─── FAQ ──────────────────────────────────── */
+#faq {
+  padding: 100px 0;
+  background: var(--dark);
+}
+.faq-list {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 800px;
+}
+.faq-item {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.faq-q {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 20px 24px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  user-select: none;
+  transition: color 0.2s;
+}
+.faq-q:hover { color: var(--yellow); }
+.faq-arrow {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: rgba(245,196,0,0.1);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.3s, background 0.2s;
+}
+.faq-arrow svg { width: 10px; height: 10px; color: var(--yellow); }
+.faq-item.open .faq-arrow { transform: rotate(180deg); background: rgba(245,196,0,0.2); }
+.faq-a {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.75;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.3s;
+  padding: 0 24px;
+}
+.faq-item.open .faq-a { max-height: 300px; padding: 0 24px 20px; }
+
+/* ─── REGISTER ─────────────────────────────── */
+#register {
+  padding: 120px 0;
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+}
+#register::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(245,196,0,0.07) 0%, transparent 70%),
+    linear-gradient(180deg, var(--black), #0a0a0f, var(--black));
+}
+.register-inner { position: relative; z-index: 1; }
+.register-title {
+  font-family: var(--font-head);
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 800;
+  line-height: 0.95;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+.register-sub {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 500px;
+  margin: 0 auto 48px;
+  line-height: 1.7;
+}
+.register-note {
+  margin-top: 20px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+}
+
+/* ─── FOOTER ───────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 0;
+  text-align: center;
+}
+.footer-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-brand {
+  font-family: var(--font-head);
+  font-size: 20px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.footer-brand span { color: var(--yellow); }
+.footer-copy {
+  font-size: 13px;
+  color: rgba(255,255,255,0.25);
+}
+
+/* ─── RESPONSIVE ───────────────────────────── */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+
+  .hero-content { grid-template-columns: 1fr; gap: 60px; text-align: center; }
+  .hero-eyebrow { justify-content: center; }
+  .hero-subtitle { margin: 0 auto 32px; }
+  .hero-actions { justify-content: center; }
+  .hero-visual { display: none; }
+
+  .about-inner { grid-template-columns: 1fr; gap: 48px; }
+  .format-steps { grid-template-columns: 1fr; gap: 12px; }
+  .step-card { border-radius: 6px !important; }
+  .prizes-grid { flex-direction: column; align-items: center; }
+  .prize-card.place-1 { transform: none; order: -1; }
+  .prize-card:hover { transform: none; }
+  .unis-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+  .timeline::before { left: 16px; }
+  .timeline-item { padding-left: 52px; }
+  .timeline-node { left: 6px; }
+  .partners-grid { justify-content: center; }
+  .footer-inner { flex-direction: column; text-align: center; }
+  .nav-cta { display: none; }
+}
+
+@media (max-width: 480px) {
+  .container { padding: 0 16px; }
+  .hero-title { font-size: 52px; }
+  .register-title { font-size: 48px; }
+  .prizes-grid { gap: 12px; }
+  .prize-card { max-width: 100%; padding: 28px 20px; }
+}
+
+/* ─── SCROLL ANIMATIONS ────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Turan <span>Masters</span></a>
+      <ul class="nav-links">
+        <li><a href="#about">О турнире</a></li>
+        <li><a href="#format">Формат</a></li>
+        <li><a href="#prizes">Призы</a></li>
+        <li><a href="#schedule">Расписание</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <a href="https://forms.google.com" target="_blank" class="nav-cta">Регистрация</a>
+      <div class="hamburger" onclick="document.querySelector('.nav-links').style.display = document.querySelector('.nav-links').style.display === 'flex' ? 'none' : 'flex'; document.querySelector('.nav-links').style.flexDirection = 'column'; document.querySelector('.nav-links').style.position = 'absolute'; document.querySelector('.nav-links').style.top = '64px'; document.querySelector('.nav-links').style.left = '0'; document.querySelector('.nav-links').style.right = '0'; document.querySelector('.nav-links').style.background = 'rgba(5,5,7,0.98)'; document.querySelector('.nav-links').style.padding = '20px 24px'; document.querySelector('.nav-links').style.borderBottom = '1px solid rgba(255,255,255,0.06)';">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-eyebrow">
+          <span class="tag">PUBG Mobile University League · Казахстан</span>
+        </div>
+        <h1 class="hero-title">
+          <span class="accent">Turan</span><br>
+          Masters
+        </h1>
+        <p class="hero-subtitle">Крупнейший студенческий киберспортивный турнир по PUBG Mobile в Казахстане. Собери команду из своего университета, пройди квалификацию и поборись за звание сильнейшей студенческой команды страны.</p>
+        <div class="hero-date-badge">
+          <span class="dot"></span>
+          <span>Старт регистрации: 10 апреля 2025</span>
+        </div>
+        <div class="hero-actions">
+          <a href="https://forms.google.com" target="_blank" class="btn-primary">
+            <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+            Зарегистрировать команду
+          </a>
+          <a href="#format" class="btn-secondary">Узнать правила турнира</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-circle-outer">
+          <div class="orbit-dot"></div>
+          <div class="orbit-dot"></div>
+          <div class="orbit-dot"></div>
+          <div class="orbit-dot"></div>
+          <div class="hero-circle-inner">
+            <svg class="hero-emblem" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="80,10 148,50 148,110 80,150 12,110 12,50" fill="none" stroke="url(#grad)" stroke-width="2"/>
+              <polygon points="80,28 132,58 132,102 80,132 28,102 28,58" fill="none" stroke="rgba(245,196,0,0.2)" stroke-width="1"/>
+              <text x="80" y="92" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-weight="800" font-size="38" fill="url(#grad)">TM</text>
+              <circle cx="80" cy="80" r="6" fill="url(#grad)"/>
+              <line x1="80" y1="10" x2="80" y2="28" stroke="url(#grad)" stroke-width="2"/>
+              <line x1="148" y1="50" x2="132" y2="58" stroke="url(#grad)" stroke-width="2"/>
+              <line x1="148" y1="110" x2="132" y2="102" stroke="url(#grad)" stroke-width="2"/>
+              <line x1="80" y1="150" x2="80" y2="132" stroke="url(#grad)" stroke-width="2"/>
+              <line x1="12" y1="110" x2="28" y2="102" stroke="url(#grad)" stroke-width="2"/>
+              <line x1="12" y1="50" x2="28" y2="58" stroke="url(#grad)" stroke-width="2"/>
+              <defs>
+                <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#f5c400"/>
+                  <stop offset="100%" stop-color="#ff7a00"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat-card">
+            <div class="hero-stat-num">70+</div>
+            <div class="hero-stat-label">Университетов</div>
+          </div>
+          <div class="hero-stat-card">
+            <div class="hero-stat-num">64</div>
+            <div class="hero-stat-label">Команды</div>
+          </div>
+          <div class="hero-stat-card">
+            <div class="hero-stat-num">256+</div>
+            <div class="hero-stat-label">Игроков</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="reveal">
+        <span class="tag">О турнире</span>
+        <div class="divider-line"></div>
+        <h2 class="section-title">Крупнейшая<br><span class="accent">Студенческая</span><br>Лига</h2>
+        <p class="about-body" style="margin-top:24px;">Turan Masters University League — крупнейшая студенческая киберспортивная лига по PUBG Mobile в Казахстане. Турнир объединяет студентов со всей страны и создаёт платформу для развития студенческого киберспорта.</p>
+        <p class="about-body">Мы строим медийную экосистему: стримы, блогеры и онлайн-трансляции — каждый матч на виду у всей страны.</p>
+      </div>
+      <div class="about-cards">
+        <div class="info-card reveal reveal-delay-1">
+          <div class="info-icon">🎮</div>
+          <div>
+            <div class="info-card-title">Развитие киберспорта</div>
+            <div class="info-card-desc">Продвигаем студенческий киберспорт и популяризируем PUBG Mobile среди молодёжи</div>
+          </div>
+        </div>
+        <div class="info-card reveal reveal-delay-2">
+          <div class="info-icon">🏆</div>
+          <div>
+            <div class="info-card-title">Сильнейшие команды</div>
+            <div class="info-card-desc">Выявляем лучшие студенческие команды страны в честном соревновании</div>
+          </div>
+        </div>
+        <div class="info-card reveal reveal-delay-3">
+          <div class="info-icon">📡</div>
+          <div>
+            <div class="info-card-title">Медиа-экосистема</div>
+            <div class="info-card-desc">Стримы, блогеры и онлайн-трансляции всех этапов турнира</div>
+          </div>
+        </div>
+        <div class="info-card reveal reveal-delay-4">
+          <div class="info-icon">🏛️</div>
+          <div>
+            <div class="info-card-title">Масштаб</div>
+            <div class="info-card-desc">Более 70 университетов, 64 команды и 256+ игроков со всего Казахстана</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMAT -->
+<section id="format">
+  <div class="container">
+    <div class="reveal">
+      <span class="tag">Формат</span>
+      <div class="divider-line"></div>
+      <h2 class="section-title">Путь к<br><span class="accent">чемпионству</span></h2>
+    </div>
+    <div class="format-steps">
+      <div class="step-card reveal reveal-delay-1">
+        <div class="step-num">01</div>
+        <div class="step-title">Групповой этап</div>
+        <p class="step-desc">4 группы по 16 команд. 18 матчей на группу — 3 игровых дня по 6 матчей. Топ-8 из каждой группы выходят в полуфинал.</p>
+        <span class="step-badge badge-online">Онлайн</span>
+      </div>
+      <div class="step-card reveal reveal-delay-2">
+        <div class="step-num">02</div>
+        <div class="step-title">Полуфинал</div>
+        <p class="step-desc">32 лучшие команды делятся на 2 группы по 16. Продолжается борьба — только 16 сильнейших попадают в Гранд-финал.</p>
+        <span class="step-badge badge-online">Онлайн</span>
+      </div>
+      <div class="step-card reveal reveal-delay-3">
+        <div class="step-num">03</div>
+        <div class="step-title">Гранд-финал</div>
+        <p class="step-desc">16 сильнейших команд — 3 дня, 18 матчей. Эпический оффлайн-финал в Астане с живой аудиторией и трансляцией на всю страну.</p>
+        <span class="step-badge badge-offline">Оффлайн · Астана</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIZES -->
+<section id="prizes">
+  <div class="container">
+    <div class="reveal">
+      <span class="tag">Призовой фонд</span>
+      <div class="divider-line" style="margin:20px auto 0;"></div>
+      <h2 class="section-title">Борись за<br><span class="accent">победу</span></h2>
+    </div>
+    <div class="prizes-grid">
+      <div class="prize-card place-2 reveal reveal-delay-2">
+        <span class="prize-medal">🥈</span>
+        <div class="prize-place">2-е место</div>
+        <div class="prize-amount silver" style="font-size:32px;">Призы и техника</div>
+        <div class="prize-currency">Кубок турнира · Спонсорский мерч</div>
+        <div class="prize-tag"><span class="tag" style="color:rgba(200,200,220,0.8);border-color:rgba(200,200,220,0.2);background:rgba(200,200,220,0.06);">Серебро</span></div>
+      </div>
+      <div class="prize-card place-1 reveal reveal-delay-1">
+        <span class="prize-medal">🥇</span>
+        <div class="prize-place">1-е место</div>
+        <div class="prize-amount gold" style="font-size:32px;">Главный приз</div>
+        <div class="prize-currency">Кубок чемпиона · Техника · Спонсорские подарки</div>
+        <div class="prize-tag"><span class="tag">Чемпионы лиги</span></div>
+      </div>
+      <div class="prize-card place-3 reveal reveal-delay-3">
+        <span class="prize-medal">🥉</span>
+        <div class="prize-place">3-е место</div>
+        <div class="prize-amount bronze" style="font-size:32px;">Призы и мерч</div>
+        <div class="prize-currency">Кубок турнира · Спонсорские подарки</div>
+        <div class="prize-tag"><span class="tag" style="color:#c87832;border-color:rgba(200,120,50,0.3);background:rgba(200,120,50,0.06);">Бронза</span></div>
+      </div>
+    </div>
+    <div style="margin-top:48px;" class="reveal">
+      <p style="font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;">Специальные номинации</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;">
+        <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 20px;font-family:var(--font-ui);font-size:13px;font-weight:600;letter-spacing:0.06em;">🎯 Лучший снайпер</div>
+        <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 20px;font-family:var(--font-ui);font-size:13px;font-weight:600;letter-spacing:0.06em;">⚡ Самый зрелищный момент</div>
+        <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 20px;font-family:var(--font-ui);font-size:13px;font-weight:600;letter-spacing:0.06em;">❤️ Приз зрительских симпатий</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UNIVERSITIES -->
+<section id="universities">
+  <div class="container">
+    <div class="reveal">
+      <span class="tag">Участники</span>
+      <div class="divider-line"></div>
+      <h2 class="section-title">Университеты<br><span class="accent">Казахстана</span></h2>
+      <p style="color:var(--muted);font-size:15px;margin-top:12px;">К участию допускаются только студенты университетов Казахстана. Каждый игрок подтверждает статус студента. Ожидается участие студентов из более чем 70 вузов страны.</p>
+    </div>
+    <div class="unis-grid">
+      <div class="uni-card reveal reveal-delay-1"><span class="uni-abbr">НУ</span>Nazarbayev University</div>
+      <div class="uni-card reveal reveal-delay-1"><span class="uni-abbr">ЕНУ</span>ЕНУ им. Л.Н. Гумилёва</div>
+      <div class="uni-card reveal reveal-delay-2"><span class="uni-abbr">SAT</span>Satbayev University</div>
+      <div class="uni-card reveal reveal-delay-2"><span class="uni-abbr">SDU</span>SDU University</div>
+      <div class="uni-card reveal reveal-delay-3"><span class="uni-abbr">КБТУ</span>KBTU</div>
+      <div class="uni-card reveal reveal-delay-3"><span class="uni-abbr">KIMEP</span>KIMEP University</div>
+      <div class="uni-card reveal reveal-delay-4"><span class="uni-abbr">КазНУ</span>КазНУ им. аль-Фараби</div>
+      <div class="uni-card reveal reveal-delay-4"><span class="uni-abbr">МУИТ</span>МУИТ</div>
+      <div class="uni-card reveal reveal-delay-1"><span class="uni-abbr">AIU</span>Astana IT University</div>
+      <div class="uni-card reveal reveal-delay-2"><span class="uni-abbr">АГУ</span>АГУ им. Абая</div>
+      <div class="uni-card reveal reveal-delay-3"><span class="uni-abbr">КарТУ</span>КарТУ</div>
+      <div class="uni-card reveal reveal-delay-4" style="background:var(--card);border-color:rgba(245,196,0,0.15);"><span class="uni-abbr" style="opacity:0.4;">70+</span>И многие другие</div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section id="schedule">
+  <div class="container">
+    <div class="reveal">
+      <span class="tag">Расписание</span>
+      <div class="divider-line"></div>
+      <h2 class="section-title">Ключевые<br><span class="accent">даты</span></h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-node"></div>
+        <div class="timeline-content">
+          <div class="timeline-date">10 апреля — 5 мая 2025</div>
+          <div class="timeline-title">Регистрация команд</div>
+          <p class="timeline-desc">Заполните заявку через Google Form. Состав: 4 основных + 1 запасной игрок. Все участники — студенты вузов Казахстана.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal reveal-delay-1">
+        <div class="timeline-node"></div>
+        <div class="timeline-content">
+          <div class="timeline-date">10–25 мая 2025</div>
+          <div class="timeline-title">Онлайн-квалификация</div>
+          <p class="timeline-desc">Групповой этап в онлайн-формате. Расписание матчей выдаётся после жеребьёвки. Топ-16 команд выходят в полуфинал.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal reveal-delay-2">
+        <div class="timeline-node"></div>
+        <div class="timeline-content">
+          <div class="timeline-date">1–8 июня 2025</div>
+          <div class="timeline-title">Полуфинал</div>
+          <p class="timeline-desc">Плей-офф стадия. Лучшие 8 команд продолжают борьбу за место в Гранд-финале.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal reveal-delay-3">
+        <div class="timeline-node"></div>
+        <div class="timeline-content">
+          <div class="timeline-date">15 июня 2025</div>
+          <div class="timeline-title">🏆 Гранд-финал · Астана</div>
+          <p class="timeline-desc">Эпический оффлайн-финал в лучшем киберспортивном клубе Астаны. 3 дня, 18 матчей, живая аудитория, трансляция и торжественная церемония награждения.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section id="partners">
+  <div class="container">
+    <div class="reveal">
+      <span class="tag">Организаторы и партнёры</span>
+      <div class="divider-line"></div>
+      <h2 class="section-title">Вместе<br><span class="accent">делаем историю</span></h2>
+    </div>
+    <p style="margin-top:8px;color:rgba(255,255,255,0.4);font-size:15px;max-width:560px;">Turan Masters University League предоставляет компаниям возможности для партнёрства и интеграции в киберспортивное сообщество.</p>
+    <p style="margin-top:40px;margin-bottom:24px;color:var(--muted);font-size:14px;">Организаторы</p>
+    <div class="partners-grid reveal">
+      <div class="partner-box organizer">Turan Events</div>
+      <div class="partner-box organizer">PUBG KZ Federation</div>
+    </div>
+    <p style="margin-top:48px;margin-bottom:24px;color:var(--muted);font-size:14px;">Форматы партнёрства</p>
+    <div class="partners-grid reveal">
+      <div class="partner-box">Титульный партнёр</div>
+      <div class="partner-box">Технический партнёр</div>
+      <div class="partner-box">Призовой партнёр</div>
+      <div class="partner-box">Медиа-партнёр</div>
+    </div>
+    <p style="margin-top:24px;font-size:13px;color:rgba(255,255,255,0.2);font-family:var(--font-ui);letter-spacing:0.06em;text-transform:uppercase;">Хотите стать партнёром? <a href="mailto:info@turanmasters.kz" style="color:var(--yellow);text-decoration:none;">Напишите нам</a></p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="reveal">
+      <span class="tag">FAQ</span>
+      <div class="divider-line"></div>
+      <h2 class="section-title">Частые<br><span class="accent">вопросы</span></h2>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">
+          Кто может участвовать в турнире?
+          <div class="faq-arrow"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div>
+        </div>
+        <div class="faq-a">Участие открыто только для действующих студентов университетов Казахстана. Для регистрации каждый игрок должен подтвердить статус студента — потребуется скан или фото студенческого билета.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">
+          Сколько человек должно быть в команде?
+          <div class="faq-arrow"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div>
+        </div>
+        <div class="faq-a">Команда состоит из 4 основных игроков и 1 запасного (необязательно). Все члены команды должны быть студентами одного университета.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">
+          Можно ли участвовать без команды?
+          <div class="faq-arrow"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div>
+        </div>
+        <div class="faq-a">Турнир проводится в командном формате, поэтому для участия необходима полноценная команда из 4 игроков. Если у тебя ещё нет команды — ищи тиммейтов в официальном Telegram-чате @TuranMastersKZ.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">
+          Нужно ли платить за участие?
+          <div class="faq-arrow"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div>
+        </div>
+        <div class="faq-a">Нет! Участие во всех онлайн-этапах абсолютно бесплатное. Финалисты добираются до Астаны самостоятельно, однако организаторы рассматривают варианты поддержки иногородних команд.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">
+          Где проходит финал турнира?
+          <div class="faq-arrow"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div>
+        </div>
+        <div class="faq-a">Гранд-финал проходит оффлайн в Астане в одном из ведущих киберспортивных клубов города. Точная локация будет объявлена после завершения полуфинала.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">
+          Как работает система очков?
+          <div class="faq-arrow"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div>
+        </div>
+        <div class="faq-a">Используется официальная система очков PUBG Mobile Esports: Placement Points (за занятое место) + Kill Points (за устранённых игроков). Тай-брейк: WWCD → очки за место → количество убийств → результат последнего матча.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTER -->
+<section id="register">
+  <div class="register-inner">
+    <div class="container">
+      <div class="reveal">
+        <span class="tag">Регистрация открыта</span>
+        <div class="divider-line" style="margin:20px auto;"></div>
+        <h2 class="register-title">
+          Собери команду<br>
+          <span class="accent">и стань чемпионом</span>
+        </h2>
+        <p class="register-sub">Прими участие в крупнейшем студенческом турнире по PUBG Mobile в Казахстане и представь свой университет на национальном уровне.</p>
+        <a href="https://forms.google.com" target="_blank" class="btn-primary" style="font-size:16px;padding:20px 48px;display:inline-flex;">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          Зарегистрировать команду
+        </a>
+        <p class="register-note">Регистрация открыта до 5 мая 2025 · Участие бесплатно</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">Turan <span>Masters</span></div>
+      <div class="footer-copy">© 2025 Turan Masters. Университетская лига PUBG Mobile · Казахстан</div>
+      <div>
+        <a href="/cdn-cgi/l/email-protection#50393e363f10242522313e3d3123243522237e3b2a" style="color:var(--muted);text-decoration:none;font-size:13px;font-family:var(--font-ui);letter-spacing:0.05em;"><span class="__cf_email__" data-cfemail="2d44434b426d59585f4c43404c5e59485f5e034657">[email&#160;protected]</span></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.obs
